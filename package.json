@@ -1,12 +1,20 @@
 {
   "name": "@virtron/agency",
-  "version": "1.0.1",
+  "version": "1.1.2",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"No tests yet\""
   },
-  "keywords": ["agent", "autonomous", "framework", "AI", "tool"],
+  "keywords": [
+    "agent",
+    "autonomous",
+    "framework",
+    "AI",
+    "agentic",
+    "agency",
+    "virtron"
+  ],
   "author": "Vincent M. Cornelius II",
   "license": "MIT",
   "description": "A framework for building autonomous agents that can perform tasks, manage memory, and interact with tools.",
@@ -19,9 +27,6 @@
   },
   "dependencies": {
     "@google/genai": "^1.13.0",
-    "cheerio": "^1.1.2",
-    "dotenv": "^17.2.1",
-    "luxon": "^3.7.1",
-    "mathjs": "^14.6.0"
+    "dotenv": "^17.2.1"
   }
 }
