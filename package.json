@@ -1,0 +1,20 @@
+{
+  "name": "@virtron/agency",
+  "version": "1.0.0",
+  "main": "Agency.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["agent", "autonomous", "framework", "AI", "tool"],
+  "author": "",
+  "license": "ISC",
+  "description": "A framework for building autonomous agents that can perform tasks, manage memory, and interact with tools.",
+  "dependencies": {
+    "@google/genai": "^1.13.0",
+    "cheerio": "^1.1.2",
+    "dotenv": "^17.2.1",
+    "luxon": "^3.7.1",
+    "mathjs": "^14.6.0"
+  }
+}
