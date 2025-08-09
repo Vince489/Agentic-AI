@@ -10,6 +10,13 @@
   "author": "",
   "license": "ISC",
   "description": "A framework for building autonomous agents that can perform tasks, manage memory, and interact with tools.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vince489/Agentic-AI"
+  },
+  "bugs": {
+    "url": "https://github.com/Vince489/Agentic-AI/issues"
+  },
   "dependencies": {
     "@google/genai": "^1.13.0",
     "cheerio": "^1.1.2",
