@@ -23,8 +23,9 @@ export class AgentFactory {
     constructor(config = {}) {
         this.defaultProvider = config.defaultProvider || 'gemini';
         this.apiKeys = config.apiKeys || {};
-    this.tools = config.tools || {}; // This is now a registry of complete tool objects.
-  }
+        this.tools = config.tools || {}; // This is now a registry of complete tool objects.
+        this.baseDir = config.baseDir || process.cwd(); // Set baseDir, default to process.cwd()
+    }
 
     /**
      * Loads agent configurations from a JSON file using a relative path.
@@ -39,10 +40,13 @@ export class AgentFactory {
    * @returns {object} The loaded configuration.
    */
     loadConfig(fileName) {
-        // Resolve __dirname dynamically for the current module (AgentFactory.js)
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
-        const configFilePath = path.join(__dirname, fileName);
+        let configFilePath;
+        if (path.isAbsolute(fileName)) {
+            configFilePath = fileName;
+        } else {
+            // If relative, resolve relative to the provided baseDir
+            configFilePath = path.resolve(this.baseDir, fileName);
+        }
         
         return this.loadConfigFromFile(configFilePath);
     }
