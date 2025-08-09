@@ -5,3 +5,5 @@ export { AgencyFactory } from './AgencyFactory.js';
 export { Team } from './Team.js';
 export { TeamFactory } from './TeamFactory.js';
 export { GeminiProvider } from './GeminiProvider.js';
+export { DateTimeTool } from './tools/date_time_tool.js';
+export { CalculatorTool } from './tools/calculator_tool.js';
