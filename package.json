@@ -1,7 +1,7 @@
 {
   "name": "@virtron/agency",
   "version": "1.0.0",
-  "main": "Agency.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"No tests yet\""
