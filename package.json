@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["agent", "autonomous", "framework", "AI", "tool"],
-  "author": "",
+  "author": "Vincent M. Cornelius II",
   "license": "ISC",
   "description": "A framework for building autonomous agents that can perform tasks, manage memory, and interact with tools.",
   "repository": {
