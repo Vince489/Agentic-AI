@@ -4,11 +4,11 @@
   "main": "Agency.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests yet\""
   },
   "keywords": ["agent", "autonomous", "framework", "AI", "tool"],
   "author": "Vincent M. Cornelius II",
-  "license": "ISC",
+  "license": "MIT",
   "description": "A framework for building autonomous agents that can perform tasks, manage memory, and interact with tools.",
   "repository": {
     "type": "git",
