@@ -1,3 +1,5 @@
+import { LLMProvider } from './LLMProvider.js';
+
 /**
  * Event System for Agent Framework
  */
@@ -406,25 +408,6 @@ class MemoryManager {
   }
 }
 
-/**
- * Interface for an LLM Provider.
- */
-/**
- * @class LLMProvider
- * @classdesc Abstract base class for LLM providers.
- */
-class LLMProvider {
-  /**
-   * Generates content using the LLM.
-   * @param {string} prompt - The prompt for the LLM.
-   * @param {object} options - Options for the LLM.
-   * @param {object[]} tools - Tools to provide to the LLM.
-   * @returns {Promise<object>} The generated content.
-   */
-  async generateContent(options, tools) {
-    throw new Error("Subclasses must implement generateContent.");
-  }
-}
 
 /**
  * A Tool Handler designed for structured tool calls from Gemini.
@@ -847,4 +830,4 @@ export class Agent {
 }
 
 // Export all classes including new ones
-export { EventEmitter, MemoryManager, LLMProvider, ToolHandler };
+export { EventEmitter, MemoryManager, ToolHandler };

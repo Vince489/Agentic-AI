@@ -26,7 +26,10 @@
     "url": "https://github.com/Vince489/Agentic-AI/issues"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.59.0",
     "@google/genai": "^1.13.0",
-    "dotenv": "^17.2.1"
+    "dotenv": "^17.2.1",
+    "groq-sdk": "^0.30.0",
+    "openai": "^5.12.2"
   }
 }

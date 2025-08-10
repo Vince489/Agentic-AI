@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { LLMProvider } from './Agent.js';
+import { LLMProvider } from './LLMProvider.js';
 /**
  * GeminiProvider class for generating content using Google's Gemini API,
  * integrated with the new Agent architecture.

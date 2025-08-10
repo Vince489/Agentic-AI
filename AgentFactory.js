@@ -1,8 +1,10 @@
 import { Agent } from './Agent.js';
 import { GeminiProvider } from './GeminiProvider.js';
+import { AnthropicProvider } from './AnthropicProvider.js';
+import { OpenAIProvider } from './OpenAIProvider.js';
+import { GroqProvider } from './GroqProvider.js';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url'; // Import fileURLToPath
 
 /**
  * Factory class for creating agents with agent.js,
@@ -145,8 +147,20 @@ export class AgentFactory {
         let llmProvider;
         switch (provider.toLowerCase()) {
             case 'gemini':
-                const modelName = agentConfig.llmConfig?.model || 'gemini-2.5-flash-lite';
-                llmProvider = new GeminiProvider(apiKey, modelName); 
+                const geminiModelName = agentConfig.llmConfig?.model || 'gemini-2.5-flash-lite';
+                llmProvider = new GeminiProvider(apiKey, geminiModelName);
+                break;
+            case 'anthropic':
+                const anthropicModelName = agentConfig.llmConfig?.model || 'claude-3-opus-20240229';
+                llmProvider = new AnthropicProvider(apiKey, anthropicModelName);
+                break;
+            case 'openai':
+                const openaiModelName = agentConfig.llmConfig?.model || 'gpt-4o';
+                llmProvider = new OpenAIProvider(apiKey, openaiModelName);
+                break;
+            case 'groq':
+                const groqModelName = agentConfig.llmConfig?.model || 'llama3-8b-8192';
+                llmProvider = new GroqProvider(apiKey, groqModelName);
                 break;
             default:
                 throw new Error(`Unsupported provider: ${provider}`);
