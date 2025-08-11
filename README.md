@@ -19,6 +19,20 @@ For detailed documentation and examples, please refer to the [documentation](htt
 
 This project is licensed under the MIT License.
 
+## Installation
+
+To install the framework, run the following command in your terminal:
+
+```bash
+npm i @virtron/agency
+````
+
+You may also need to install the tools package separately:
+
+```bash
+npm i @virtron/agency-tools
+```
+
 ## Agent vs. AgentFactory
 
 In this framework, you can create agents in two primary ways: directly using the `Agent` class or by using the `AgentFactory`. The choice depends on your specific needs for control versus convenience.
@@ -29,9 +43,65 @@ The `AgentFactory` is a high-level utility designed to simplify the creation and
 
 **When to use `AgentFactory`:**
 
--   **Rapid Prototyping:** Quickly get an agent running with a standard, supported LLM provider (e.g., Gemini, OpenAI, Anthropic).
--   **Standard Use Cases:** When your needs are met by the built-in providers and components.
--   **Managing Multiple Agents:** Easily create and manage a group of agents from a single configuration file.
+  - **Rapid Prototyping:** Quickly get an agent running with a standard, supported LLM provider (e.g., Gemini, OpenAI, Anthropic).
+  - **Standard Use Cases:** When your needs are met by the built-in providers and components.
+  - **Managing Multiple Agents:** Easily create and manage a group of agents from a single configuration file.
+
+### Example: Using AgentFactory
+
+The following example shows how to use the `AgentFactory` to create an agent that uses a calculator tool.
+
+```javascript
+import 'dotenv/config';
+import { AgentFactory } from '@virtron/agency';
+// import { calculatorTool } from './calculator_tool.js';
+import { calculatorTool } from '@virtron/agency-tools';
+
+async function main() {
+  // 1. Create and configure the AgentFactory
+  const factory = new AgentFactory({
+    apiKeys: {
+      gemini: process.env.GEMINI_API_KEY,
+    }
+  });
+
+  // Register the calculator tool with the AgentFactory
+  factory.registerTool(calculatorTool);
+
+  // 2. Define the configuration for the agent
+  const agentConfig = {
+    id: 'gemini-agent',
+    name: 'Gemini Agent',
+    description: 'An agent that uses the Gemini API.',
+    provider: 'gemini',
+    llmConfig: {
+      model: 'gemini-2.5-flash-lite', // Or any other Gemini model
+    },
+    role: 'A helpful assistant that can perform calculations using the calculator tool.',
+    goals: ['Use the calculator tool when appropriate to perform mathematical calculations.'],
+    tools: {
+      calculator: 'calculator', 
+    },
+  };
+
+  // 3. Create the agent
+  const agent = factory.createAgent(agentConfig);
+
+  // 4. Run the agent
+  const prompt = 'what is sqrt(64)?';
+  console.log(`Running agent with prompt: "${prompt}"`);
+
+  try {
+    const response = await agent.run(prompt);
+    console.log('Agent Response:');
+    console.log(response);
+  } catch (error) {
+    console.error('An error occurred while running the agent:', error);
+  }
+}
+
+main();
+```
 
 ### Using the `Agent` Class Directly (The Powerful Approach)
 
@@ -39,9 +109,9 @@ Directly instantiating the `Agent` class gives you maximum control and flexibili
 
 **When to use the `Agent` class:**
 
--   **Custom Components:** When you need to use a custom-built LLM provider, a specialized memory manager, or a unique tool handler that isn't supported by the factory.
--   **Fine-Grained Control:** For precise control over the lifecycle and configuration of the agent and its dependencies, which is often necessary when integrating into a larger, existing application.
--   **Explicitness:** If you prefer to have a clear, explicit dependency graph without the "magic" of a factory.
+  - **Custom Components:** When you need to use a custom-built LLM provider, a specialized memory manager, or a unique tool handler that isn't supported by the factory.
+  - **Fine-Grained Control:** For precise control over the lifecycle and configuration of the agent and its dependencies, which is often necessary when integrating into a larger, existing application.
+  - **Explicitness:** If you prefer to have a clear, explicit dependency graph without the "magic" of a factory.
 
 ### Example: Direct Instantiation
 
