@@ -13,7 +13,6 @@ async function main() {
   });
 
   // 2. Define the configuration for the agent you want to create
-  // This is where you specify the provider, model, role, and other settings.
   const agentConfig = {
     id: 'groq-agent',
     name: 'Groq Agent',

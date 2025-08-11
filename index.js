@@ -8,5 +8,6 @@ export { GeminiProvider } from './GeminiProvider.js';
 export { AnthropicProvider } from './AnthropicProvider.js';
 export { OpenAIProvider } from './OpenAIProvider.js';
 export { GroqProvider } from './GroqProvider.js';
+export { OpenRouterProvider } from './OpenRouterProvider.js';
+export { MistralProvider } from './MistralProvider.js';
 export { LLMProvider } from './LLMProvider.js';
-

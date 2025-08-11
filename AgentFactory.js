@@ -3,6 +3,8 @@ import { GeminiProvider } from './GeminiProvider.js';
 import { AnthropicProvider } from './AnthropicProvider.js';
 import { OpenAIProvider } from './OpenAIProvider.js';
 import { GroqProvider } from './GroqProvider.js';
+import { OpenRouterProvider } from './OpenRouterProvider.js';
+import { MistralProvider } from './MistralProvider.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -161,6 +163,14 @@ export class AgentFactory {
             case 'groq':
                 const groqModelName = agentConfig.llmConfig?.model || 'llama3-8b-8192';
                 llmProvider = new GroqProvider(apiKey, groqModelName);
+                break;
+            case 'openrouter':
+                const openRouterModelName = agentConfig.llmConfig?.model || 'deepseek/deepseek-chat-v3-0324';
+                llmProvider = new OpenRouterProvider(apiKey, openRouterModelName, agentConfig.llmConfig);
+                break;
+            case 'mistral':
+                const mistralModelName = agentConfig.llmConfig?.model || 'mistral-large-latest';
+                llmProvider = new MistralProvider(apiKey, mistralModelName, agentConfig.llmConfig);
                 break;
             default:
                 throw new Error(`Unsupported provider: ${provider}`);
