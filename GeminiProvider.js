@@ -63,11 +63,12 @@ export class GeminiProvider extends LLMProvider {
                     },
                 };
 
-                // Add systemInstruction as a top-level parameter if present
+                // Add systemInstruction to the config object
+                if (!request.config) {
+                    request.config = {};
+                }
                 if (prompt.systemInstruction) {
-                    request.systemInstruction = {
-                        parts: [{ text: prompt.systemInstruction }]
-                    };
+                    request.config.systemInstruction = prompt.systemInstruction;
                 }
 
                 // Add tools in config object if schemas are available (matching bet44.js structure)
@@ -116,11 +117,12 @@ export class GeminiProvider extends LLMProvider {
                     },
                 };
 
-                // Add systemInstruction as a top-level parameter if present
+                // Add systemInstruction to the config object
+                if (!request.config) {
+                    request.config = {};
+                }
                 if (prompt.systemInstruction) {
-                    request.systemInstruction = {
-                        parts: [{ text: prompt.systemInstruction }]
-                    };
+                    request.config.systemInstruction = prompt.systemInstruction;
                 }
 
                 // Add tools in config object if schemas are available (matching bet44.js structure)
