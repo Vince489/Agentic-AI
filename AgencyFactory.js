@@ -1,7 +1,7 @@
 import { Agency } from './Agency.js';
 import { TeamFactory } from './TeamFactory.js';
 import fs from 'fs/promises';
-import { transformWorkflowDefinition } from '../workflow-utils.js';
+import { transformWorkflowDefinition } from './workflow-utils.js';
 
 /**
  * Factory for creating Agency instances from configuration
