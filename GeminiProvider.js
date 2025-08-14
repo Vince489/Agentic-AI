@@ -63,7 +63,7 @@ export class GeminiProvider extends LLMProvider {
                     },
                 };
 
-                // Add systemInstruction to the config object
+                // Merge systemInstruction and tools into the config object
                 if (!request.config) {
                     request.config = {};
                 }
@@ -73,11 +73,9 @@ export class GeminiProvider extends LLMProvider {
 
                 // Add tools in config object if schemas are available (matching bet44.js structure)
                 if (this.toolSchemas && this.toolSchemas.length > 0) {
-                    request.config = {
-                        tools: [{
-                            functionDeclarations: this.toolSchemas
-                        }]
-                    };
+                    request.config.tools = [{
+                        functionDeclarations: this.toolSchemas
+                    }];
                 }
 
                 const response = await this.genAI.models.generateContent(request);
@@ -117,7 +115,7 @@ export class GeminiProvider extends LLMProvider {
                     },
                 };
 
-                // Add systemInstruction to the config object
+                // Merge systemInstruction and tools into the config object
                 if (!request.config) {
                     request.config = {};
                 }
@@ -127,11 +125,9 @@ export class GeminiProvider extends LLMProvider {
 
                 // Add tools in config object if schemas are available (matching bet44.js structure)
                 if (this.toolSchemas && this.toolSchemas.length > 0) {
-                    request.config = {
-                        tools: [{
-                            functionDeclarations: this.toolSchemas
-                        }]
-                    };
+                    request.config.tools = [{
+                        functionDeclarations: this.toolSchemas
+                    }];
                 }
 
                 const responseStream = await this.genAI.models.generateContentStream(request);

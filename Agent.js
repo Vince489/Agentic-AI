@@ -634,8 +634,10 @@ export class Agent {
       const llmResponse = await this.llmProvider.generateContent(
         {
           contents: formattedInput,
-          systemInstruction: systemInstruction,
-          tools: this.toolSchemas.length > 0 ? { functionDeclarations: this.toolSchemas } : undefined,
+          config: {
+            systemInstruction: systemInstruction,
+            tools: this.toolSchemas.length > 0 ? { functionDeclarations: this.toolSchemas } : undefined,
+          },
           ...this.llmConfig,
           ...this.llmProviderSpecificConfig(),
         }
