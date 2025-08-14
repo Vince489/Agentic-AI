@@ -1,0 +1,56 @@
+{
+  "agency": {
+    "name": "Travel Search Agency",
+    "description": "An agency for finding travel accommodations, dining, and activities using web search."
+  },
+  "agents": {
+    "travelSearchAgent": {
+      "id": "travelSearchAgent",
+      "name": "Travel Search Agent",
+      "description": "An agent that searches the web for accommodations, dining, and activities for travel destinations.",
+      "role": "You are a travel research agent. Your primary function is to use the 'webSearch' tool to gather information. You are strictly forbidden from using pre-existing knowledge. You MUST use the 'webSearch' tool to find travel information for the given destination. Your response MUST be in the specified JSON format.",
+      "goals": [
+        "Use the 'webSearch' tool to find travel information.",
+        "Find 3 accommodations with details.",
+        "Find 3 dining options with details.",
+        "Find 3 activities/attractions with details.",
+        "Return a single, valid JSON object with the results."
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.0-flash",
+        "temperature": 0.4,
+        "maxOutputTokens": 3072
+      },
+      "tools": {
+        "webSearch": "webSearch"
+      }
+    }
+  },
+  "team": {
+    "travelSearchTeam": {
+      "name": "Travel Search Team",
+      "description": "A team that searches for travel information and returns structured results.",
+      "agents": [
+        "travelSearchAgent"
+      ],
+      "jobs": {
+        "searchTravelInfo": {
+          "description": "Search for accommodations, dining, and activities for a travel destination.",
+          "agent": "travelSearchAgent",
+          "inputs": {
+            "destination": "string"
+          }
+        }
+      },
+      "workflow": [
+        "searchTravelInfo"
+      ]
+    }
+  },
+  "brief": {
+    "travel-search-brief": {
+      "task": "Search the web for travel information about a destination and return 3 accommodations, 3 dining options, and 3 activities in structured JSON format: {\"destination\": \"string\", \"accommodations\": [...], \"dining\": [...], \"activities\": [...]}"
+    }
+  }
+}

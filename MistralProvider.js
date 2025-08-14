@@ -56,16 +56,20 @@ export class MistralProvider extends LLMProvider {
                 content: content.parts.map(part => part.text).join('')
             }));
 
-            if (prompt.systemInstruction) {
-                messages.unshift({ role: 'system', content: prompt.systemInstruction });
-            }
-
             const request = {
                 model: this.modelName,
                 messages: messages,
                 temperature: prompt.temperature || options.temperature || 0.7,
                 max_tokens: prompt.maxOutputTokens || options.maxOutputTokens || 1024,
             };
+
+            // Merge systemInstruction into the config object
+            if (!request.config) {
+                request.config = {};
+            }
+            if (prompt.systemInstruction) {
+                request.config.systemInstruction = prompt.systemInstruction;
+            }
 
             if (this.toolSchemas && this.toolSchemas.length > 0) {
                 request.tools = this.toolSchemas;

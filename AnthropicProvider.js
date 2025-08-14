@@ -49,10 +49,17 @@ export class AnthropicProvider extends LLMProvider {
             const request = {
                 model: this.modelName,
                 messages: messages,
-                system: prompt.systemInstruction,
                 temperature: prompt.temperature || options.temperature || 0.7,
                 max_tokens: prompt.maxOutputTokens || options.maxOutputTokens || 1024,
             };
+
+            // Merge systemInstruction into the config object
+            if (!request.config) {
+                request.config = {};
+            }
+            if (prompt.systemInstruction) {
+                request.config.systemInstruction = prompt.systemInstruction;
+            }
 
             if (this.toolSchemas && this.toolSchemas.length > 0) {
                 request.tools = this.toolSchemas;
