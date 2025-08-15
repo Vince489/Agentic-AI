@@ -56,24 +56,18 @@ export class MistralProvider extends LLMProvider {
                 content: content.parts.map(part => part.text).join('')
             }));
 
+            // Allow model name to be overridden by options
+            const modelName = options.model || this.modelName;
+
             const request = {
-                model: this.modelName,
+                model: modelName,
                 messages: messages,
                 temperature: prompt.temperature || options.temperature || 0.7,
                 max_tokens: prompt.maxOutputTokens || options.maxOutputTokens || 1024,
             };
 
-            // Merge systemInstruction into the config object
-            if (!request.config) {
-                request.config = {};
-            }
-            if (prompt.systemInstruction) {
-                request.config.systemInstruction = prompt.systemInstruction;
-            }
-
-            if (this.toolSchemas && this.toolSchemas.length > 0) {
-                request.tools = this.toolSchemas;
-            }
+            // Debug logging
+            console.log('Mistral API Request:', JSON.stringify(request, null, 2));
 
             const response = await this.openai.chat.completions.create(request);
             return this.formatResponse(response);
