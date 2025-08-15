@@ -137,19 +137,11 @@ export class Team {
         // Run the agent with the prepared input
         const result = await agent.run(jobInput, this.context);
 
-        // Attempt to parse the result as JSON, otherwise keep it as a string
-        let parsedResult = result;
-        try {
-            parsedResult = JSON.parse(result);
-        } catch (e) {
-            // Not a JSON string, keep as is
-        }
-
         // Store the result
-        this.results[jobName] = parsedResult;
+        this.results[jobName] = result;
 
         // Update the context with the result
-        this.context[jobName] = parsedResult;
+        this.context[jobName] = result;
 
         console.log(`✅ Job ${jobName} completed`);
       } catch (error) {

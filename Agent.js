@@ -1,5 +1,3 @@
-import { LLMProvider } from './LLMProvider.js';
-
 /**
  * Event System for Agent Framework
  */
@@ -542,6 +540,7 @@ export class Agent {
     this.responseProcessor = config.responseProcessor || ((llmResponse) => {
       const firstCandidate = llmResponse?.candidates?.[0];
       const textParts = firstCandidate?.content?.parts?.filter(p => p.text).map(p => p.text).join('');
+      console.log("Response processor result:", textParts);
       return textParts || '';
     });
 
