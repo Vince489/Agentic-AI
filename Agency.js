@@ -36,7 +36,7 @@ export class Agency {
 
     // Core components
     this.agents = {};
-    this.team = {};
+    this.teams = {};
     this.brief = {};
     this.activeJobs = {};
 
@@ -288,7 +288,7 @@ export class Agency {
    * @param {Team} team - The team object.
    */
   addTeam(id, team) {
-    this.team[id] = team;
+    this.teams[id] = team;
     return this;
   }
 
@@ -648,7 +648,7 @@ export class Agency {
 
     const assignee = assigneeType === 'agent'
       ? this.agents[assigneeId]
-      : this.team[assigneeId];
+      : this.teams[assigneeId];
 
     if (!assignee) {
       throw new Error(`${assigneeType} ${assigneeId} not found`);
@@ -804,7 +804,7 @@ export class Agency {
 
     const assignee = job.assigneeType === 'agent'
       ? this.agents[job.assigneeId]
-      : this.team[job.assigneeId];
+      : this.teams[job.assigneeId];
 
     try {
       // Update job status

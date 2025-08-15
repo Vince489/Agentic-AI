@@ -129,7 +129,7 @@ export class Team {
         agency.assignJob(briefId, job.agent, 'agent');
 
         // Prepare the input for the agent
-        const jobInput = this.prepareJobInput(job, inputs);
+        const jobInput = this.prepareJobInput(job, inputs, jobName);
 
         console.log(`- Agent: ${job.agent}`);
         console.log(`- Job input:`, jobInput);
@@ -139,6 +139,9 @@ export class Team {
 
         // Store the result
         this.results[jobName] = result;
+
+        // Debug: Log the result to understand its structure
+        console.log(`Result for job ${jobName}:`, result);
 
         // Update the context with the result
         this.context[jobName] = result;
@@ -158,15 +161,17 @@ export class Team {
    * Prepare the input for a job
    * @param {Object} job - Job definition
    * @param {Object} initialInputs - The initial inputs for the entire workflow
+   * @param {string} jobName - The name of the current job
    * @returns {Object} - Prepared input for the agent
    */
   /**
    * Prepares the input for a job.
    * @param {object} job - The job object.
    * @param {object} initialInputs - The initial inputs for the job.
+   * @param {string} jobName - The name of the current job.
    * @returns {object} The prepared input.
    */
-  prepareJobInput(job, initialInputs) {
+  prepareJobInput(job, initialInputs, jobName) {
     const jobInputs = {};
 
         // Process each input defined in the job's configuration
@@ -181,17 +186,37 @@ export class Team {
                     // Assume it's a reference to a previous job's output, e.g., "jobId.outputKey"
                     const [sourceJobName, outputKey] = placeholder.split('.');
                     if (this.results[sourceJobName]) {
-                        if (outputKey && this.results[sourceJobName][outputKey] !== undefined) {
+                        if (outputKey && this.results[sourceJobName] && this.results[sourceJobName][outputKey] !== undefined) {
                             jobInputs[key] = this.results[sourceJobName][outputKey];
                         } else if (!outputKey) {
                             // If no outputKey is specified, pass the entire job result
-                            jobInputs[key] = this.results[sourceJobName];
+                            // Check if the result is an object with a specific structure
+                            if (this.results[sourceJobName] && typeof this.results[sourceJobName] === 'object') {
+                                // If it has a toolResults property, use that
+                                if (this.results[sourceJobName].toolResults) {
+                                    jobInputs[key] = this.results[sourceJobName].toolResults;
+                                }
+                                // If it has a candidates array, use the content from the first candidate
+                                else if (this.results[sourceJobName].candidates && this.results[sourceJobName].candidates[0]) {
+                                    jobInputs[key] = this.results[sourceJobName].candidates[0].content.parts[0].text;
+                                }
+                                // If it has a 'results' property, use that
+                                else if (this.results[sourceJobName].results) {
+                                    jobInputs[key] = this.results[sourceJobName].results;
+                                }
+                                // Otherwise, use the entire result
+                                else {
+                                    jobInputs[key] = this.results[sourceJobName];
+                                }
+                            } else {
+                                jobInputs[key] = this.results[sourceJobName];
+                            }
                         } else {
-                            console.warn(`Warning: Output key '${outputKey}' not found in job '${sourceJobName}' for input '${key}' in job '${job.name}'.`);
+                            console.warn(`Warning: Output key '${outputKey}' not found in job '${sourceJobName}' for input '${key}' in job '${jobName}'.`);
                             jobInputs[key] = ''; // Assign a default empty value
                         }
                     } else {
-                        console.warn(`Warning: Output from job '${sourceJobName}' not found for input '${key}' in job '${job.name}'.`);
+                        console.warn(`Warning: Output from job '${sourceJobName}' not found for input '${key}' in job '${jobName}'.`);
                         jobInputs[key] = ''; // Assign a default empty value
                     }
                 }

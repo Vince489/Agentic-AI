@@ -1,0 +1,107 @@
+{
+  "agency": {
+    "name": "Content Creation Agency",
+    "description": "Demonstrates a multi-agent workflow for content creation",
+    "logging": {
+      "level": "basic",
+      "tracing": true
+    }
+  },
+  "brief": {
+    "content-creation-brief": {
+      "title": "Content Creation Brief",
+      "overview": "Create a polished blog post based on the provided prompt.",
+      "background": "The content creation process involves research, drafting, and refining to ensure high-quality output.",
+      "objective": "Produce a well-researched, engaging, and polished blog post.",
+      "targetAudience": "General audience interested in music and pop culture."
+    }
+  },
+  "agents": {
+    "prompt-researcher": {
+      "id": "prompt-researcher",
+      "name": "Prompt Researcher",
+      "description": "Specializes in finding and analyzing relevant information based on a prompt",
+      "role": "You are a research specialist. Your task is to find relevant information based on the provided prompt. Be thorough in your research and provide structured, actionable insights.",
+      "goals": [
+        "Find comprehensive information based on the prompt",
+        "Provide structured research results"
+      ],
+      "provider": "groq",
+        "llmConfig": {
+          "model": "openai/gpt-oss-20b",
+          "temperature": 0.4,
+          "maxOutputTokens": 3072
+        },
+      "tools": {
+        "webSearch": "webSearch"
+      }
+    },
+    "writer": {
+      "id": "writer",
+      "name": "Writer",
+      "description": "Specializes in drafting content based on research",
+      "role": "You are a content writer. Your task is to draft engaging and informative content based on the research provided. Ensure the content is well-structured and aligned with the prompt.",
+      "goals": [
+        "Draft engaging and informative content",
+        "Ensure the content is well-structured and aligned with the prompt"
+      ],
+      "provider": "groq",
+        "llmConfig": {
+          "model": "openai/gpt-oss-20b",
+          "temperature": 0.5,
+          "maxOutputTokens": 2048
+        }
+    },
+    "refiner": {
+      "id": "refiner",
+      "name": "Refiner",
+      "description": "Specializes in refining and polishing content",
+      "role": "You are a content refiner. Your task is to refine and polish the draft to improve clarity, coherence, and quality. Ensure the final content is polished and ready for publication.",
+      "goals": [
+        "Refine and polish the draft for clarity and coherence",
+        "Ensure the final content is polished and ready for publication"
+      ],
+      "provider": "groq",
+        "llmConfig": {
+          "model": "openai/gpt-oss-20b",
+          "temperature": 0.5,
+          "maxOutputTokens": 2048
+        }
+    }
+  },
+  "teams": {
+    "content-creation-team": {
+      "name": "Content Creation Team",
+      "description": "Collaborates to create polished content based on a prompt",
+      "agents": {
+        "prompt-researcher": "prompt-researcher",
+        "writer": "writer",
+        "refiner": "refiner"
+      },
+      "jobs": {
+        "research": {
+          "agent": "prompt-researcher",
+          "description": "Research relevant information based on the prompt",
+          "inputs": {
+            "prompt": "{{initialInputs.prompt}}"
+          }
+        },
+        "draft": {
+          "agent": "writer",
+          "description": "Draft content based on the research",
+          "inputs": {
+            "research": "{{research}}"
+          }
+        },
+        "refine": {
+          "agent": "refiner",
+          "description": "Refine and polish the draft",
+          "inputs": {
+            "draft": "{{draft}}"
+          }
+        }
+      },
+      "workflow": ["research", "draft", "refine"]
+    }
+  }
+}

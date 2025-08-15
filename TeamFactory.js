@@ -102,7 +102,7 @@ export class TeamFactory {
    */
   createTeamFromConfig(config, teamId) {
     // Get the team configuration
-    const teamConfig = config.team[teamId];
+    const teamConfig = config.teams ? config.teams[teamId] : config.team[teamId];
     if (!teamConfig) {
       throw new Error(`Team configuration not found for ID: ${teamId}`);
     }
@@ -116,13 +116,13 @@ export class TeamFactory {
     
     // Create all required agents
     const agents = {};
-    for (const agentId of teamConfig.agents) {
+    for (const [role, agentId] of Object.entries(teamConfig.agents)) {
       const agentConfig = config.agents[agentId];
       if (!agentConfig) {
         console.warn(`Warning: Agent configuration not found for ID: ${agentId}`);
         continue;
       }
-      agents[agentId] = this.agentFactory.createAgent(agentConfig);
+      agents[role] = this.agentFactory.createAgent(agentConfig);
     }
     
     // Create the team with the agents

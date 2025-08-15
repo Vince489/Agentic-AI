@@ -544,6 +544,21 @@ export class Agent {
       return textParts || '';
     });
 
+    // Special response processor for tool results
+    this.toolResponseProcessor = config.toolResponseProcessor || ((toolResults) => {
+      // Extract the results from the tool calls
+      const results = toolResults.map(result => {
+        if (result.error) {
+          return `Error from tool ${result.toolName}: ${result.error}`;
+        } else {
+          return result.result;
+        }
+      });
+
+      // Join all results with newlines
+      return results.join('\n\n');
+    });
+
     // Initialize tool schemas
     this._refreshToolSchemas();
   }
@@ -684,17 +699,26 @@ export class Agent {
           ...this.llmProviderSpecificConfig(),
         });
 
+        // Process the tool results and the final response
+        const toolResultsText = this.toolResponseProcessor(toolResults);
         const finalResponse = this.responseProcessor(responseWithResults);
-        this.memory.addToHistory({ input, response: finalResponse, timestamp: new Date() });
+
+        // Combine the tool results with the final response
+        const combinedResponse = {
+          toolResults: toolResultsText,
+          finalResponse: finalResponse
+        };
+
+        this.memory.addToHistory({ input, response: combinedResponse, timestamp: new Date() });
         this.setStatus('idle');
         this.events.emit('runCompleted', {
           agent: this.id,
           input,
-          response: finalResponse,
+          response: combinedResponse,
           timestamp: new Date()
         });
 
-        return finalResponse;
+        return combinedResponse;
 
       } else {
         const processedResponse = this.responseProcessor(llmResponse);
