@@ -7,10 +7,10 @@
  * 3. Refiner: Refines and polishes the draft.
  */
 
-import { webSearchTool } from './tools/index.js';
-import { AgencyFactory } from './agency/AgencyFactory.js';
-import { TeamFactory } from './agency/TeamFactory.js';
-import { AgentFactory } from './agency/AgentFactory.js';
+import { webSearchTool } from './tools/search_tool.js';
+import { AgencyFactory } from './AgencyFactory.js';
+import { TeamFactory } from './TeamFactory.js';
+import { AgentFactory } from './AgentFactory.js';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';

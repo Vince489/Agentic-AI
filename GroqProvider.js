@@ -44,10 +44,20 @@ export class GroqProvider extends LLMProvider {
      */
     async generateContent(prompt, options = {}) {
         try {
-            const messages = prompt.contents.map(content => ({
-                role: content.role,
-                content: content.parts.map(part => part.text).join('')
-            }));
+            const messages = prompt.contents.map(content => {
+                let role = content.role.toLowerCase();
+                if (role === 'user' || role === 'assistant' || role === 'system') {
+                    return {
+                        role: role,
+                        content: content.parts.map(part => part.text).join('')
+                    };
+                } else {
+                    return {
+                        role: 'user',
+                        content: content.parts.map(part => part.text).join('')
+                    };
+                }
+            });
 
             const request = {
                 model: this.modelName,
@@ -56,12 +66,12 @@ export class GroqProvider extends LLMProvider {
                 max_tokens: prompt.maxOutputTokens || options.maxOutputTokens || 1024,
             };
 
-            // Merge systemInstruction into the config object
-            if (!request.config) {
-                request.config = {};
-            }
+            // Merge systemInstruction into the request
             if (prompt.systemInstruction) {
-                request.config.systemInstruction = prompt.systemInstruction;
+                request.messages.unshift({
+                    role: 'system',
+                    content: prompt.systemInstruction
+                });
             }
 
             if (this.toolSchemas && this.toolSchemas.length > 0) {

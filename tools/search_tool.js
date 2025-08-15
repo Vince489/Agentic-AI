@@ -7,13 +7,13 @@ export const webSearchTool = {
     schema: {
         // This is the REQUIRED 'function_declaration' property
         function_declaration: {
-            name: 'webSearch', 
+            name: 'webSearch',
             description: 'Performs a web search for a given query and returns relevant results, including snippets and content from the pages.',
             parameters: {
-                type: 'OBJECT',
+                type: 'object',
                 properties: {
                     query: {
-                        type: 'STRING',
+                        type: 'string',
                         description: 'The search query (e.g., "latest news on AI", "how to bake a cake", "weather in London").',
                     },
                 },
