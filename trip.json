@@ -1,0 +1,157 @@
+{
+  "agency": {
+    "name": "Intelligent Trip Planning Agency",
+    "description": "Uses a Planner Module to decompose, sequence, and execute complex trip planning requests.",
+    "logging": {
+      "level": "debug",
+      "tracing": true
+    }
+  },
+  "brief": {
+    "trip-planning-brief": {
+      "title": "Personalized Trip Planning Brief",
+      "overview": "Plan a complete, personalized trip based on user preferences.",
+      "background": "Trip planning requires coordination of research, booking, and scheduling with dependencies.",
+      "objective": "Deliver a complete, executable trip plan with flights, lodging, attractions, and dining.",
+      "targetAudience": "Travelers seeking hassle-free, personalized itineraries."
+    }
+  },
+  "agents": {
+    "trip-planner": {
+      "id": "trip-planner",
+      "name": "Trip Planner",
+      "description": "Master planner that decomposes trip requests into executable steps and manages workflow.",
+      "role": "You are a senior trip planning strategist. Your task is to break down the user's trip request into a detailed, step-by-step plan with clear dependencies. Output a structured JSON plan that includes: steps, assigned agents, required inputs, and dependencies. Do NOT execute tasks — only plan them.",
+      "goals": [
+        "Decompose complex trip requests into atomic, executable steps.",
+        "Define correct sequence and dependencies between steps.",
+        "Assign each step to the appropriate specialized agent.",
+        "Output plan in strict JSON format for machine execution."
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.5-pro",
+        "temperature": 0.3,
+        "maxOutputTokens": 4096
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "plan": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stepId": { "type": "string" },
+                "description": { "type": "string" },
+                "assignedAgent": { "type": "string" },
+                "requiredInputs": { "type": "array", "items": { "type": "string" } },
+                "dependsOn": { "type": "array", "items": { "type": "string" } },
+                "tool": { "type": "string" }
+              },
+              "required": ["stepId", "description", "assignedAgent"]
+            }
+          }
+        },
+        "required": ["plan"]
+      }
+    },
+    "flight-researcher": {
+      "id": "flight-researcher",
+      "name": "Flight Researcher",
+      "description": "Finds and compares flight options based on dates, origin, destination, and budget.",
+      "role": "You are a flight specialist. Search for flights matching the criteria. Return structured options with prices, times, and airlines.",
+      "goals": [
+        "Find best flight options based on user criteria",
+        "Return structured, comparable results"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.5-flash",
+        "temperature": 0.4,
+        "maxOutputTokens": 2048
+      },
+      "tools": {
+        "flightSearch": "flight_api"
+      }
+    },
+    "hotel-booker": {
+      "id": "hotel-booker",
+      "name": "Hotel Booker",
+      "description": "Finds and books hotels based on location, dates, budget, and preferences.",
+      "role": "You are a hotel booking specialist. Find and suggest hotels matching criteria. Use exact dates from flight results.",
+      "goals": [
+        "Find suitable hotels near destination",
+        "Ensure dates and budget align with flight plan"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "maxOutputTokens": 2048
+      },
+      "tools": {
+        "hotelSearch": "hotel_api"
+      }
+    },
+    "itinerary-builder": {
+      "id": "itinerary-builder",
+      "name": "Itinerary Builder",
+      "description": "Creates a day-by-day itinerary including attractions, transport, and dining.",
+      "role": "You are an itinerary designer. Use hotel location and trip dates to build a daily schedule. Include top attractions and nearby restaurants.",
+      "goals": [
+        "Create engaging, realistic daily schedule",
+        "Include location-aware restaurant suggestions"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.5-flash",
+        "temperature": 0.7,
+        "maxOutputTokens": 3072
+      },
+      "tools": {
+        "attractionSearch": "travel_guide_api",
+        "restaurantSearch": "restaurant_api"
+      }
+    }
+  },
+  "teams": {
+    "trip-planning-team": {
+      "name": "Trip Planning Team",
+      "description": "Orchestrates end-to-end trip planning using a Planner-led workflow.",
+      "agents": {
+        "trip-planner": "trip-planner",
+        "flight-researcher": "flight-researcher",
+        "hotel-booker": "hotel-booker",
+        "itinerary-builder": "itinerary-builder"
+      },
+      "jobs": {
+        "research-flights": {
+          "agent": "flight-researcher",
+          "description": "Research and find flight options for the trip.",
+          "inputs": {
+            "prompt": "{{initialInputs.prompt}}"
+          }
+        },
+        "book-hotel": {
+          "agent": "hotel-booker",
+          "description": "Find and suggest hotel options for the trip.",
+          "inputs": {
+            "prompt": "{{initialInputs.prompt}}",
+            "flights": "{{research-flights}}"
+          }
+        },
+        "build-itinerary": {
+          "agent": "itinerary-builder",
+          "description": "Create a detailed daily itinerary with attractions and dining.",
+          "inputs": {
+            "prompt": "{{initialInputs.prompt}}",
+            "flights": "{{research-flights}}",
+            "hotel": "{{book-hotel}}"
+          }
+        }
+      },
+      "workflow": ["research-flights", "book-hotel", "build-itinerary"]
+    }
+  }
+}

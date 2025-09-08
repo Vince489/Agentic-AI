@@ -115,11 +115,11 @@ Directly instantiating the `Agent` class gives you maximum control and flexibili
 
 ### Example: Direct Instantiation
 
-The following example demonstrates the power of using the `Agent` class directly. Here, we manually instantiate the `GeminiProvider` and inject it, along with other components, into the `Agent`. This is a perfect illustration of a scenario where direct instantiation is necessary for custom control.
+The following example demonstrates the power of using the `Agent` class directly. Here, we manually instantiate the `GeminiProvider` and inject it into the `Agent`. This is a perfect illustration of a scenario where direct instantiation is necessary for custom control.
 
 ```javascript
 import 'dotenv/config';
-import { Agent, MemoryManager, ToolHandler } from './Agent.js';
+import { Agent, MemoryManager } from './Agent.js';
 import { GeminiProvider } from './GeminiProvider.js';
 
 async function main() {
@@ -143,9 +143,11 @@ async function main() {
     // 3. You must manually inject the dependencies
     llmProvider: geminiProvider,
     memoryManager: new MemoryManager(),
-    toolHandler: new ToolHandler(),
     tools: {}, // No tools for this example
   };
+
+  // Note: ToolHandler is automatically created by the Agent class
+  // and doesn't need to be explicitly instantiated
 
   // 4. Create the agent instance directly
   const agent = new Agent(agentConfig);

@@ -126,12 +126,18 @@ export class TeamFactory {
     }
     
     // Create the team with the agents
+    // Process workflow - extract jobId from workflow steps if they are objects
+    let workflow = teamConfig.workflow || [];
+    if (workflow.length > 0 && typeof workflow[0] === 'object' && workflow[0].jobId) {
+      workflow = workflow.map(step => step.jobId);
+    }
+
     const team = new Team({
       name: teamConfig.name,
       description: teamConfig.description,
       agents: agents,
       jobs: teamConfig.jobs || {},
-      workflow: teamConfig.workflow || []
+      workflow: workflow
     });
     
     console.log('Created team:');
