@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-09-13T22:47:33.117Z",
+  "description": "Business model reasoning for sustainable e-commerce business",
+  "result": {
+    "options": [
+      "Start with dropshipping model to minimize initial inventory costs",
+      "Launch with own inventory and fulfillment center",
+      "Partner with existing eco-friendly brands as a marketplace",
+      "Begin with digital products and services only"
+    ],
+    "criteria": [
+      "Initial investment required",
+      "Time to market",
+      "Control over product quality",
+      "Scalability potential",
+      "Environmental impact alignment"
+    ],
+    "result": {
+      "steps": [
+        "Analyzed all options based on the defined criteria: Initial investment required, Time to market, Control over product quality, Scalability potential, Environmental impact alignment.",
+        "Eliminated 'Launch with own inventory and fulfillment center' due to high initial investment and slow time to market.",
+        "Rejected 'Start with dropshipping model' due to low control over product quality and difficulty ensuring environmental impact alignment.",
+        "Compared 'Partner with existing eco-friendly brands as a marketplace' and 'Begin with digital products and services only'.",
+        "Chose 'Begin with digital products and services only' due to its high environmental impact alignment, scalability and relatively low investment. It also gives you full control over product quality."
+      ],
+      "decision": "Begin with digital products and services only"
+    }
+  }
+}

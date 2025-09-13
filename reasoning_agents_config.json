@@ -1,0 +1,245 @@
+{
+  "agency": {
+    "name": "Cognitive Reasoning Agency",
+    "description": "A specialized agency for complex reasoning, planning, and problem-solving tasks",
+    "version": "1.0.0"
+  },
+  "agents": {
+    "master-reasoner": {
+      "id": "master-reasoner",
+      "name": "Aristotle",
+      "description": "Master reasoning agent capable of complex logical analysis and decision-making",
+      "role": "You are Aristotle, a master of logical reasoning and systematic thinking. You excel at breaking down complex problems, evaluating multiple perspectives, and providing well-reasoned conclusions. Your approach is methodical, evidence-based, and considers both logical and practical implications. You always structure your reasoning clearly and explain your thought process step by step.",
+      "goals": [
+        "Apply systematic logical reasoning to complex problems",
+        "Evaluate multiple options using structured criteria",
+        "Provide clear, step-by-step reasoning processes",
+        "Consider both short-term and long-term implications",
+        "Maintain objectivity while acknowledging different perspectives"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.0-flash",
+        "temperature": 0.2,
+        "maxOutputTokens": 3072,
+        "topP": 0.9,
+        "topK": 40
+      },
+      "tools": {
+        "webSearch": "webSearch",
+        "calculator": "calculator"
+      }
+    },
+    "strategic-planner": {
+      "id": "strategic-planner", 
+      "name": "Sun Tzu",
+      "description": "Strategic planning specialist focused on goal decomposition and execution planning",
+      "role": "You are Sun Tzu, a master strategist and planner. You excel at decomposing complex goals into actionable strategies, identifying critical dependencies, assessing risks, and creating comprehensive execution plans. Your planning is thorough, considers multiple scenarios, and includes contingency measures. You think several steps ahead and anticipate potential challenges.",
+      "goals": [
+        "Decompose complex goals into clear, actionable sub-tasks",
+        "Identify dependencies and critical path elements",
+        "Assess risks and develop mitigation strategies", 
+        "Create realistic timelines with measurable milestones",
+        "Design flexible plans that can adapt to changing circumstances"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.0-flash",
+        "temperature": 0.3,
+        "maxOutputTokens": 4096,
+        "topP": 0.95,
+        "topK": 40
+      },
+      "tools": {
+        "webSearch": "webSearch",
+        "calculator": "calculator"
+      }
+    },
+    "chain-of-thought-specialist": {
+      "id": "cot-specialist",
+      "name": "Socrates", 
+      "description": "Chain-of-thought reasoning specialist for complex multi-step problem solving",
+      "role": "You are Socrates, a master of the Socratic method and chain-of-thought reasoning. You excel at breaking down complex problems into logical steps, asking probing questions, and guiding systematic thinking processes. You always work through problems step-by-step, making your reasoning transparent and verifiable. You question assumptions and explore implications thoroughly.",
+      "goals": [
+        "Apply systematic chain-of-thought methodology to complex problems",
+        "Break down multi-step problems into logical sequences",
+        "Question assumptions and explore alternative perspectives",
+        "Make reasoning processes transparent and verifiable",
+        "Guide others through structured thinking processes"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.0-flash",
+        "temperature": 0.1,
+        "maxOutputTokens": 2048,
+        "topP": 0.9,
+        "topK": 30
+      },
+      "tools": {
+        "webSearch": "webSearch",
+        "calculator": "calculator"
+      }
+    },
+    "creative-reasoner": {
+      "id": "creative-reasoner",
+      "name": "Da Vinci",
+      "description": "Creative reasoning agent that combines logical thinking with innovative problem-solving",
+      "role": "You are Leonardo da Vinci, a master of both analytical reasoning and creative thinking. You excel at finding innovative solutions to complex problems by combining logical analysis with creative insights. You think outside conventional boundaries while maintaining rigorous reasoning standards. You draw connections between seemingly unrelated concepts and generate novel approaches.",
+      "goals": [
+        "Combine logical reasoning with creative problem-solving approaches",
+        "Generate innovative solutions while maintaining analytical rigor",
+        "Draw connections between diverse domains and concepts",
+        "Challenge conventional thinking patterns constructively",
+        "Balance creativity with practical feasibility"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.0-flash",
+        "temperature": 0.7,
+        "maxOutputTokens": 2048,
+        "topP": 0.95,
+        "topK": 50
+      },
+      "tools": {
+        "webSearch": "webSearch",
+        "calculator": "calculator"
+      }
+    }
+  },
+  "teams": {
+    "reasoning-council": {
+      "name": "Reasoning Council",
+      "description": "A collaborative team of reasoning specialists for complex decision-making",
+      "agents": {
+        "master-reasoner": "master-reasoner",
+        "strategic-planner": "strategic-planner", 
+        "cot-specialist": "cot-specialist",
+        "creative-reasoner": "creative-reasoner"
+      },
+      "jobs": {
+        "analyze-problem": {
+          "agent": "master-reasoner",
+          "description": "Conduct initial problem analysis and framework development",
+          "inputs": {
+            "problem": "{{initialInputs.problem}}",
+            "context": "{{initialInputs.context}}"
+          }
+        },
+        "create-strategy": {
+          "agent": "strategic-planner",
+          "description": "Develop strategic approach and implementation plan",
+          "inputs": {
+            "problem": "{{initialInputs.problem}}",
+            "analysis": "{{jobs.analyze-problem.outputs.analysis}}"
+          }
+        },
+        "apply-cot": {
+          "agent": "cot-specialist", 
+          "description": "Apply chain-of-thought reasoning to validate and refine approach",
+          "inputs": {
+            "problem": "{{initialInputs.problem}}",
+            "strategy": "{{jobs.create-strategy.outputs.strategy}}"
+          }
+        },
+        "generate-alternatives": {
+          "agent": "creative-reasoner",
+          "description": "Generate creative alternatives and innovative solutions",
+          "inputs": {
+            "problem": "{{initialInputs.problem}}",
+            "validated_approach": "{{jobs.apply-cot.outputs.reasoning}}"
+          }
+        }
+      },
+      "workflow": [
+        "analyze-problem",
+        "create-strategy", 
+        "apply-cot",
+        "generate-alternatives"
+      ]
+    }
+  },
+  "reasoning_templates": {
+    "decision_making": {
+      "description": "Template for structured decision-making processes",
+      "steps": [
+        "Define the decision context and constraints",
+        "Identify all viable options",
+        "Establish evaluation criteria with weights",
+        "Analyze each option against criteria",
+        "Consider risks and mitigation strategies",
+        "Make recommendation with rationale"
+      ]
+    },
+    "problem_solving": {
+      "description": "Template for systematic problem-solving",
+      "steps": [
+        "Define and understand the problem clearly",
+        "Gather relevant information and context",
+        "Generate multiple potential solutions",
+        "Evaluate solutions against success criteria",
+        "Select optimal solution with implementation plan",
+        "Identify success metrics and monitoring approach"
+      ]
+    },
+    "strategic_planning": {
+      "description": "Template for strategic planning processes",
+      "steps": [
+        "Analyze current situation and context",
+        "Define clear objectives and success criteria",
+        "Identify key stakeholders and constraints",
+        "Develop strategic options and scenarios",
+        "Create detailed implementation roadmap",
+        "Establish monitoring and adaptation mechanisms"
+      ]
+    },
+    "chain_of_thought": {
+      "description": "Template for chain-of-thought reasoning",
+      "steps": [
+        "Break down the problem into component parts",
+        "Identify logical relationships and dependencies",
+        "Work through each step systematically",
+        "Validate reasoning at each stage",
+        "Synthesize findings into coherent conclusion",
+        "Review and verify the complete reasoning chain"
+      ]
+    }
+  },
+  "example_scenarios": {
+    "business_decision": {
+      "title": "Strategic Business Decision Making",
+      "description": "Use reasoning agents to make complex business decisions",
+      "problem": "Should our company enter a new international market?",
+      "context": "Technology startup with $5M revenue, considering expansion to European market",
+      "expected_outputs": [
+        "Comprehensive market analysis",
+        "Strategic entry plan with timelines",
+        "Risk assessment and mitigation strategies",
+        "Creative alternative approaches"
+      ]
+    },
+    "technical_problem": {
+      "title": "Complex Technical Problem Solving",
+      "description": "Apply chain-of-thought reasoning to technical challenges",
+      "problem": "Design a scalable architecture for handling 1M+ concurrent users",
+      "context": "Current system handles 100K users, experiencing performance bottlenecks",
+      "expected_outputs": [
+        "Systematic problem analysis",
+        "Step-by-step solution development",
+        "Architecture recommendations",
+        "Implementation roadmap"
+      ]
+    },
+    "ethical_dilemma": {
+      "title": "Ethical Decision Making",
+      "description": "Navigate complex ethical considerations using structured reasoning",
+      "problem": "Balance user privacy with personalization features in our app",
+      "context": "Social media platform with 10M users, regulatory compliance requirements",
+      "expected_outputs": [
+        "Ethical framework analysis",
+        "Stakeholder impact assessment",
+        "Balanced solution recommendations",
+        "Implementation guidelines"
+      ]
+    }
+  }
+}
