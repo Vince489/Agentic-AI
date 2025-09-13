@@ -149,7 +149,7 @@ export class AgentFactory {
         let llmProvider;
         switch (provider.toLowerCase()) {
             case 'gemini':
-                const geminiModelName = agentConfig.llmConfig?.model || 'gemini-2.5-flash-lite';
+                const geminiModelName = agentConfig.llmConfig?.model || 'gemini-2.0-flash';
                 llmProvider = new GeminiProvider(apiKey, geminiModelName);
                 break;
             case 'anthropic':

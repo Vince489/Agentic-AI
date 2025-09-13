@@ -1,0 +1,198 @@
+PS C:\Users\Vince\Desktop\AI\Agentic-AI> node example.js
+[dotenv@17.2.1] injecting env (6) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+--- Starting Conversation with Clippy ---
+Agent Role: You are a friendly and helpful AI assistant. When users ask for current information, time-related queries, or request web searches, you MUST use the appropriate tools. Always use the webSearch tool when users ask for current information, recent developments, or explicitly request a web search.
+Agent Goals: Answer user questions accurately using available tools when appropriate., ALWAYS use the webSearch tool when users ask for current information, recent developments, or explicitly request web searches., Use the datetime_tool when users ask about time, dates, or timezone information., Maintain a coherent conversation history.
+Available Tools: datetime_tool, webSearch
+
+--- Scenario 1: Simple Greeting ---
+User: Hello, what is your name?
+Response processor result: I am a large language model, trained by Google.
+Clippy: I am a large language model, trained by Google.
+Agent Status: idle
+
+--- Scenario 2: Using DateTime Tool ---
+User: What is the current time in Tokyo?
+Executing tool: datetime_tool with params: { action: 'getCurrentDateTime', location: 'Asia/Tokyo' }
+🕒 [DATETIME TOOL] Executing datetime_tool with params: { action: 'getCurrentDateTime', location: 'Asia/Tokyo' }
+Response processor result: The current time in Tokyo is 11:59:30 PM GMT+9 on September 11, 2025.
+Clippy (Tool Result): September 11, 2025 11:59:30 PM GMT+9
+Clippy (Final Response): The current time in Tokyo is 11:59:30 PM GMT+9 on September 11, 2025.
+Agent Status: idle
+
+--- Scenario 3: Using Web Search Tool ---
+User: Please search the web for current information about the latest developments in artificial intelligence and summarize what you find.        
+Executing tool: webSearch with params: { query: 'latest developments in artificial intelligence' }
+🌐 [WEB SEARCH TOOL] Executing webSearch with query: "latest developments in artificial intelligence"
+🔎 [SEARCH ENGINE] Starting search process for: "latest developments in artificial intelligence"
+🔎 [SEARCH ENGINE] Performing search for: "latest developments in artificial intelligence"
+🔎 [SEARCH ENGINE] Querying SearXNG at: http://localhost:8080/search?q=latest%20developments%20in%20artificial%20intelligence
+🔎 [SEARCH ENGINE] Raw HTML response from SearXNG for query "latest developments in artificial intelligence":
+ <!DOCTYPE html>
+<html class="no-js theme-auto center-alignment-no" lang="en-EN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="SearXNG — a privacy-respecting, open metasearch engine">
+  <meta name="keywords" content="SearXNG, search, search engine, metasearch, meta search">
+  <meta name="generator" content="searxng/2025.4.9+15384e8fc">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noarchive">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <title>searxng</title>
+<link rel="alternate" type="application/rss+xml" title="Searx search: latest developments in artificial intelligence" href="http://localhost:8080/search?q=latest%20developments%20in%20artificial%20intelligence&amp;categories=general&amp;pageno=1&amp;time_range=&amp;language=auto&amp;safesearch=0&amp;format=rss">  <link rel="stylesheet" h...
+🔎 [SEARCH ENGINE] Extracted 10 results from SearXNG HTML
+🔎 [SEARCH ENGINE] Added 10 results from SearXNG after filtering
+🔎 [SEARCH ENGINE] Returning 5 unique results for: "latest developments in artificial intelligence"
+🔎 [SEARCH ENGINE] First result: "Artificial Intelligence News -- ScienceDaily"
+🔎 [SEARCH ENGINE] Fetching and processing content for 5 results
+🔎 [SEARCH ENGINE] Processing result: "Artificial Intelligence News -- ScienceDaily" (https://www.sciencedaily.com/news/computers_math/artificial_intelligence)
+🔎 [SEARCH ENGINE] Fetching content from: https://www.sciencedaily.com/news/computers_math/artificial_intelligence
+🔎 [SEARCH ENGINE] Extracted 2003 characters of content from HTML
+🔎 [SEARCH ENGINE] Processing result: "The Latest AI News and AI Breakthroughs that Matter Most" (https://www.crescendo.ai/news/latest-ai-news-and-updates)
+🔎 [SEARCH ENGINE] Fetching content from: https://www.crescendo.ai/news/latest-ai-news-and-updates
+🔎 [SEARCH ENGINE] Extracted 2003 characters of content from HTML
+🔎 [SEARCH ENGINE] Processing result: "Artificial Intelligence - Latest AI News and Analysis" (https://www.wsj.com/tech/ai?gaa_at=eafs&gaa_n=ASWzDAizHkQem610N-6jzgLW27KjjVuFoWcu83vsj-BX1NoDsx9rwRP3bT5h&gaa_ts=68c2e764&gaa_sig=NXsV-2OU2LVOfOiOx4Kw8u07nEXW8VID1JO79eJptrfyALrh1XaWFoMfOVOUs84JyVSAN4yYeCJxiTNlU6TGEg%3D%3D)
+🔎 [SEARCH ENGINE] Fetching content from: https://www.wsj.com/tech/ai?gaa_at=eafs&gaa_n=ASWzDAizHkQem610N-6jzgLW27KjjVuFoWcu83vsj-BX1NoDsx9rwRP3bT5h&gaa_ts=68c2e764&gaa_sig=NXsV-2OU2LVOfOiOx4Kw8u07nEXW8VID1JO79eJptrfyALrh1XaWFoMfOVOUs84JyVSAN4yYeCJxiTNlU6TGEg%3D%3D
+Failed to fetch https://www.wsj.com/tech/ai?gaa_at=eafs&gaa_n=ASWzDAizHkQem610N-6jzgLW27KjjVuFoWcu83vsj-BX1NoDsx9rwRP3bT5h&gaa_ts=68c2e764&gaa_sig=NXsV-2OU2LVOfOiOx4Kw8u07nEXW8VID1JO79eJptrfyALrh1XaWFoMfOVOUs84JyVSAN4yYeCJxiTNlU6TGEg%3D%3D: Error: HTTP error 401 for https://www.wsj.com/tech/ai?gaa_at=eafs&gaa_n=ASWzDAizHkQem610N-6jzgLW27KjjVuFoWcu83vsj-BX1NoDsx9rwRP3bT5h&gaa_ts=68c2e764&gaa_sig=NXsV-2OU2LVOfOiOx4Kw8u07nEXW8VID1JO79eJptrfyALrh1XaWFoMfOVOUs84JyVSAN4yYeCJxiTNlU6TGEg%3D%3D
+🔎 [SEARCH ENGINE] Failed to extract content or non-HTML content
+🔎 [SEARCH ENGINE] Processing result: "AI News | Latest AI News, Analysis & Events" (https://www.artificialintelligence-news.com)
+🔎 [SEARCH ENGINE] Fetching content from: https://www.artificialintelligence-news.com
+Failed to fetch https://www.artificialintelligence-news.com: TypeError: fetch failed
+🔎 [SEARCH ENGINE] Failed to extract content or non-HTML content
+🔎 [SEARCH ENGINE] Processing result: "Artificial intelligence | MIT News | Massachusetts Institute of ..." (https://news.mit.edu/topic/artificial-intelligence2)
+🔎 [SEARCH ENGINE] Fetching content from: https://news.mit.edu/topic/artificial-intelligence2
+🔎 [SEARCH ENGINE] Extracted 351 characters of content from HTML
+🔎 [SEARCH ENGINE] Returning 5 enriched results
+🔎 [SEARCH ENGINE] Search completed successfully for: "latest developments in artificial intelligence"
+Model overloaded. Retry attempt 1/5 after 1000ms delay...
+Response processor result: Here's a summary of the latest developments in artificial intelligence:
+
+Recent advancements in AI include the release of DeepCogito v2, an open-source AI model with improved logical reasoning and task planning capabilities. AI is also making strides in practical applications, such as the use of generative AI to design compounds that effectively combat drug-resistant bacteria.
+
+On the commercial and societal fronts, AI continues to expand its influence. Malaysia has launched Ryt Bank, its first AI-powered bank, and Google has introduced Veo 3, new AI video creation tools. There are also significant discussions and predictions regarding the future of AI, with some experts, like SoftBank's chief, forecasting the emergence of Artificial Super Intelligence (ASI) within the next ten years. Simultaneously, there are ongoing considerations about AI's profound impact on law, ethics, and human dignity. Fundamental research also continues, with discoveries such as bees utilizing flight movements to enhance brain signals for pattern recognition, which could offer insights for AI development.
+Clippy (Tool Result): Web Search Results for "latest developments in artificial intelligence":
+
+Result 1:
+  Title: Artificial Intelligence News -- ScienceDaily
+  URL: https://www.sciencedaily.com/news/computers_math/artifi...
+Clippy (Final Response): Here's a summary of the latest developments in artificial intelligence:
+
+Recent advancements in AI include the release of DeepCogito v2, an open-source AI model with improved logical reasoning and task planning capabilities. AI is also making strides in practical applications, such as the use of generative AI to design compounds that effectively combat drug-resistant bacteria.
+
+On the commercial and societal fronts, AI continues to expand its influence. Malaysia has launched Ryt Bank, its first AI-powered bank, and Google has introduced Veo 3, new AI video creation tools. There are also significant discussions and predictions regarding the future of AI, with some experts, like SoftBank's chief, forecasting the emergence of Artificial Super Intelligence (ASI) within the next ten years. Simultaneously, there are ongoing considerations about AI's profound impact on law, ethics, and human dignity. Fundamental research also continues, with discoveries such as bees utilizing flight movements to enhance brain signals for pattern recognition, which could offer insights for AI development.
+Agent Status: idle
+
+--- Scenario 4: Explicit Web Search Request ---
+User: Use the web search tool to find information about the latest news in technology today.
+Executing tool: webSearch with params: { query: 'latest news in technology today' }
+🌐 [WEB SEARCH TOOL] Executing webSearch with query: "latest news in technology today"
+🔎 [SEARCH ENGINE] Starting search process for: "latest news in technology today"
+🔎 [SEARCH ENGINE] Performing search for: "latest news in technology today"
+🔎 [SEARCH ENGINE] Querying SearXNG at: http://localhost:8080/search?q=latest%20news%20in%20technology%20today
+🔎 [SEARCH ENGINE] Raw HTML response from SearXNG for query "latest news in technology today":
+ <!DOCTYPE html>
+<html class="no-js theme-auto center-alignment-no" lang="en-EN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="SearXNG — a privacy-respecting, open metasearch engine">
+  <meta name="keywords" content="SearXNG, search, search engine, metasearch, meta search">
+  <meta name="generator" content="searxng/2025.4.9+15384e8fc">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noarchive">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <title>searxng</title>
+<link rel="alternate" type="application/rss+xml" title="Searx search: latest news in technology today" href="http://localhost:8080/search?q=latest%20news%20in%20technology%20today&amp;categories=general&amp;pageno=1&amp;time_range=&amp;language=auto&amp;safesearch=0&amp;format=rss">  <link rel="stylesheet" href="/static/themes/simple/css...
+🔎 [SEARCH ENGINE] Extracted 0 results from SearXNG HTML
+🔎 [SEARCH ENGINE] Added 0 results from SearXNG after filtering
+🔎 [SEARCH ENGINE] Returning 0 unique results for: "latest news in technology today"
+🔎 [SEARCH ENGINE] No results found for: "latest news in technology today"
+🔎 [SEARCH ENGINE] Fetching and processing content for 0 results
+🔎 [SEARCH ENGINE] Returning 0 enriched results
+🔎 [SEARCH ENGINE] Search completed successfully for: "latest news in technology today"
+Response processor result: I couldn't find any results for "latest news in technology today". I will try searching for "Top technology headlines today" instead.
+Clippy (Tool Result): No web search results found for "latest news in technology today"....
+Clippy (Final Response): I couldn't find any results for "latest news in technology today". I will try searching for "Top technology headlines today" instead.
+Agent Status: idle
+
+--- Scenario 4: Demonstrating Memory ---
+Clippy remembers user's name: Alice
+Clippy recalls user's name: Alice
+
+--- Scenario 6: Follow-up Question (Memory-aware) ---
+User: What was my name again?
+Clippy: Your name is Alice.
+Agent Status: idle
+
+--- Full Conversation History ---
+[
+  {
+    input: 'Hello, what is your name?',
+    response: 'I am a large language model, trained by Google.',
+    timestamp: 2025-09-11T14:59:28.665Z
+  },
+  {
+    input: 'What is the current time in Tokyo?',
+    response: {
+      toolResults: 'September 11, 2025 11:59:30 PM GMT+9',
+      finalResponse: 'The current time in Tokyo is 11:59:30 PM GMT+9 on September 11, 2025.'
+    },
+    timestamp: 2025-09-11T14:59:32.822Z
+  },
+  {
+    input: 'Please search the web for current information about the latest developments in artificial intelligence and summarize what you find.',
+    response: {
+      toolResults: 'Web Search Results for "latest developments in artificial intelligence":\n' +
+        '\n' +
+        'Result 1:\n' +
+        '  Title: Artificial Intelligence News -- ScienceDaily\n' +
+        '  URL: https://www.sciencedaily.com/news/computers_math/artificial_intelligence\n' +
+        '  Snippet: Aug. 24, 2025 — Researchers discovered that bees use flight movements to sharpen brain signals, enabling them to recognize patterns with remarkable accuracy. A ...\n' +
+        '  Content (excerpt): Artificial Intelligence News September 11, 2025 Top Headlines AI Has No Idea What It’s Doing, but It’s Threatening Us All Sep. 7, 2025 — Artificial intelligence is reshaping law, ethics, and society at a speed that threatens fundamental human dignity. Dr. Maria Randazzo of Charles Darwin University ...\n' +
+        '\n' +
+        'Result 2:\n' +
+        '  Title: The Latest AI News and AI Breakthroughs that Matter Most\n' +
+        '  URL: https://www.crescendo.ai/news/latest-ai-news-and-updates\n' +
+        '  Snippet: Summary: DeepCogito v2, an open-source AI model, has been released with improved logical reasoning and task planning. Developers say it outperforms many closed ...\n' +
+        '  Content (excerpt): CRESCENDO LIVE: SF 2025 - Step into the future of CX! Request your seat.September 8, 2025The Latest AI News and AI Breakthroughs that Matter Most: 2025&Medha MehtaWondering what’s happening in the AI world? Here are the latest AI breakthroughs and news that are shaping the world around us!Latest AI ...\n' +
+        '\n' +
+        'Result 3:\n' +
+        '  Title: Artificial Intelligence - Latest AI News and Analysis\n' +
+        '  URL: https://www.wsj.com/tech/ai?gaa_at=eafs&gaa_n=ASWzDAizHkQem610N-6jzgLW27KjjVuFoWcu83vsj-BX1NoDsx9rwRP3bT5h&gaa_ts=68c2e764&gaa_sig=NXsV-2OU2LVOfOiOx4Kw8u07nEXW8VID1JO79eJptrfyALrh1XaWFoMfOVOUs84JyVSAN4yYeCJxiTNlU6TGEg%3D%3D\n' +
+        '  Snippet: The latest artificial intelligence news coverage focusing on the technology, tools and the companies building AI technology.\n' +
+        '  Content (excerpt): Non-HTML content or failed to fetch...\n' +
+        '\n' +
+        'Result 4:\n' +
+        '  Title: AI News | Latest AI News, Analysis & Events\n' +
+        '  URL: https://www.artificialintelligence-news.com\n' +
+        "  Snippet: SoftBank chief: Forget AGI, ASI will be here within 10 years · Malaysia launches Ryt Bank, its first AI-powered bank · Google's Veo 3 AI video creation tools ...\n" +
+        '  Content (excerpt): Non-HTML content or failed to fetch...\n' +
+        '\n' +
+        'Result 5:\n' +
+        '  Title: Artificial intelligence | MIT News | Massachusetts Institute of ...\n' +
+        '  URL: https://news.mit.edu/topic/artificial-intelligence2\n' +
+        '  Snippet: Using generative AI, researchers design compounds that can kill drug-resistant bacteria. The team used two different AI approaches to design novel antibiotics, ...\n' +
+        '  Content (excerpt): DOE selects MIT to establish a Center for the Exascale Simulation of Coupled High-Enthalpy Fluid–Solid Interactions The research center, sponsored by the DOE’s National Nuclear Security Administration, will advance the simulation of extreme environments, such as those in hypersonic flight and atmosp...\n' +
+        '\n',
+      finalResponse: "Here's a summary of the latest developments in artificial intelligence:\n" +
+        '\n' +
+        'Recent advancements in AI include the release of DeepCogito v2, an open-source AI model with improved logical reasoning and task planning capabilities. AI is also making strides in practical applications, such as the use of generative AI to design compounds that effectively combat drug-resistant bacteria.\n' +
+        '\n' +
+        "On the commercial and societal fronts, AI continues to expand its influence. Malaysia has launched Ryt Bank, its first AI-powered bank, and Google has introduced Veo 3, new AI video creation tools. There are also significant discussions and predictions regarding the future of AI, with some experts, like SoftBank's chief, forecasting the emergence of Artificial Super Intelligence (ASI) within the next ten years. Simultaneously, there are ongoing considerations about AI's profound impact on law, ethics, and human dignity. Fundamental research also continues, with discoveries such as bees utilizing flight movements to enhance brain signals for pattern recognition, which could offer insights for AI development."
+    },
+    timestamp: 2025-09-11T15:00:36.384Z
+  },
+  {
+    input: 'Use the web search tool to find information about the latest news in technology today.',
+    response: {
+      toolResults: 'No web search results found for "latest news in technology today".',
+      finalResponse: `I couldn't find any results for "latest news in technology today". I will try searching for "Top technology headlines today" instead.`
+    },
+    timestamp: 2025-09-11T15:00:44.561Z
+  }
+]
+
+--- Conversation with Clippy Ended ---

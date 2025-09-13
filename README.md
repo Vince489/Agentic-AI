@@ -75,7 +75,7 @@ async function main() {
     description: 'An agent that uses the Gemini API.',
     provider: 'gemini',
     llmConfig: {
-      model: 'gemini-2.5-flash-lite', // Or any other Gemini model
+      model: 'gemini-2.0-flash', // Or any other Gemini model
     },
     role: 'A helpful assistant that can perform calculations using the calculator tool.',
     goals: ['Use the calculator tool when appropriate to perform mathematical calculations.'],
@@ -126,7 +126,7 @@ async function main() {
   // 1. Manually create the LLM provider
   const geminiProvider = new GeminiProvider(
     process.env.GEMINI_API_KEY,
-    'gemini-1.5-flash-latest'
+    'gemini-2.0-flash'
   );
 
   // 2. Define the agent configuration object
@@ -136,7 +136,7 @@ async function main() {
     description: 'An agent that uses the Gemini API.',
     provider: 'gemini', // This is still here but not used by the Agent class itself
     llmConfig: {
-      model: 'gemini-1.5-flash-latest',
+      model: 'gemini-1.5-flash',
     },
     role: 'A helpful assistant.',
 

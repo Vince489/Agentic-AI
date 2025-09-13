@@ -544,6 +544,17 @@ export class Agent {
       return textParts || '';
     });
 
+    // Method to get the current date
+    this.getCurrentDate = config.getCurrentDate || (() => new Date().toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short'
+    }));
+
     // Special response processor for tool results
     this.toolResponseProcessor = config.toolResponseProcessor || ((toolResults) => {
       // Extract the results from the tool calls
@@ -641,8 +652,41 @@ export class Agent {
       this.events.emit('inputFormatted', { agent: this.id, formattedInput });
 
       let systemInstruction = this.role;
+      // Inject current date into the system instruction
+      systemInstruction += `\n\nCurrent Date and Time: ${this.getCurrentDate()}\n`;
+
       if (this.goals && this.goals.length > 0) {
         systemInstruction += "\n\nYour specific goals for this task are:\n" + this.goals.map((goal, index) => `${index + 1}. ${goal}`).join('\n');
+      }
+
+      // Inject memory into the system instruction
+      const history = this.memory.getHistory();
+      const keyValueStore = this.memory.keyValueStore;
+
+      if (history.length > 0 || Object.keys(keyValueStore).length > 0) {
+        systemInstruction += "\n\n--- Agent Memory ---\n";
+        if (history.length > 0) {
+          systemInstruction += "\nConversation History:\n";
+          history.forEach(entry => {
+            systemInstruction += `Timestamp: ${entry.timestamp.toLocaleString()}\n`;
+            systemInstruction += `Input: ${entry.input}\n`;
+            if (entry.response) {
+              if (typeof entry.response === 'object' && entry.response.finalResponse) {
+                systemInstruction += `Response: ${entry.response.finalResponse}\n`;
+              } else {
+                systemInstruction += `Response: ${entry.response}\n`;
+              }
+            }
+            systemInstruction += "---\n";
+          });
+        }
+        if (Object.keys(keyValueStore).length > 0) {
+          systemInstruction += "\nKey-Value Store:\n";
+          for (const key in keyValueStore) {
+            systemInstruction += `${key}: ${keyValueStore[key]}\n`;
+          }
+        }
+        systemInstruction += "\n--- End Agent Memory ---\n";
       }
 
       const llmResponse = await this.llmProvider.generateContent(
@@ -676,23 +720,32 @@ export class Agent {
         // This is a key part of the function calling loop:
         // You would typically send these results back to the LLM
         // to generate the final user-facing response.
+        const toolResultsText = this.toolResponseProcessor(toolResults);
+
+        // Construct the contents for the second LLM call
+        const contentsForSecondCall = [
+          ...formattedInput, // Original user input
+          {
+            role: "model",
+            parts: toolCallsParts // Model's turn, showing it called tools
+          },
+          {
+            role: "function",
+            parts: toolResults.map(result => ({
+              functionResponse: {
+                name: result.toolName,
+                response: { result: result.result || result.error }
+              }
+            }))
+          },
+          { // Add a new user turn to explicitly ask for synthesis
+            role: "user",
+            parts: [{ text: `Based on the tool results provided above, please synthesize a comprehensive and accurate final response to the user's original query. The tool results are:\n${toolResultsText}` }]
+          }
+        ];
+
         const responseWithResults = await this.llmProvider.generateContent({
-          contents: [
-            ...formattedInput,
-            {
-              role: "model",
-              parts: toolCallsParts // Use the original toolCallsParts here for the model's turn
-            },
-            {
-              role: "function",
-              parts: toolResults.map(result => ({
-                functionResponse: {
-                  name: result.toolName,
-                  response: { result: result.result || result.error }
-                }
-              }))
-            }
-          ],
+          contents: contentsForSecondCall, // Use the new contents array
           systemInstruction: systemInstruction,
           tools: this.toolSchemas.length > 0 ? { functionDeclarations: this.toolSchemas } : undefined,
           ...this.llmConfig,
@@ -700,7 +753,6 @@ export class Agent {
         });
 
         // Process the tool results and the final response
-        const toolResultsText = this.toolResponseProcessor(toolResults);
         const finalResponse = this.responseProcessor(responseWithResults);
 
         // Combine the tool results with the final response

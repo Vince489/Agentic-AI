@@ -14,7 +14,7 @@ export class GeminiProvider extends LLMProvider {
      * @param {string} apiKey - Gemini API key.
      * @param {string} modelName
      */
-    constructor(apiKey, modelName = 'gemini-2.5-flash-lite') {
+    constructor(apiKey, modelName = 'gemini-2.0-flash') {
         super();
         if (!apiKey) {
             throw new Error("API key is required for GeminiProvider.");
@@ -63,17 +63,13 @@ export class GeminiProvider extends LLMProvider {
                     },
                 };
 
-                // Merge systemInstruction and tools into the config object
-                if (!request.config) {
-                    request.config = {};
-                }
+                // Add systemInstruction and tools if they exist
                 if (prompt.systemInstruction) {
-                    request.config.systemInstruction = prompt.systemInstruction;
+                    request.systemInstruction = prompt.systemInstruction;
                 }
 
-                // Add tools in config object if schemas are available (matching bet44.js structure)
                 if (this.toolSchemas && this.toolSchemas.length > 0) {
-                    request.config.tools = [{
+                    request.tools = [{
                         functionDeclarations: this.toolSchemas
                     }];
                 }

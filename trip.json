@@ -30,7 +30,7 @@
       ],
       "provider": "gemini",
       "llmConfig": {
-        "model": "gemini-2.5-pro",
+        "model": "gemini-2.0-flash",
         "temperature": 0.3,
         "maxOutputTokens": 4096
       },
@@ -67,7 +67,7 @@
       ],
       "provider": "gemini",
       "llmConfig": {
-        "model": "gemini-2.5-flash",
+        "model": "gemini-2.0-flash",
         "temperature": 0.4,
         "maxOutputTokens": 2048
       },
@@ -86,7 +86,7 @@
       ],
       "provider": "gemini",
       "llmConfig": {
-        "model": "gemini-2.5-flash",
+        "model": "gemini-2.0-flash",
         "temperature": 0.5,
         "maxOutputTokens": 2048
       },
@@ -105,7 +105,7 @@
       ],
       "provider": "gemini",
       "llmConfig": {
-        "model": "gemini-2.5-flash",
+        "model": "gemini-2.0-flash",
         "temperature": 0.7,
         "maxOutputTokens": 3072
       },

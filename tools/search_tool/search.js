@@ -34,6 +34,7 @@ const performSearch = async (query) => {
 
             let results = [];
             if (engine.isHtml) {
+                console.log(`🔎 [SEARCH ENGINE] Raw HTML response from ${engine.name} for query "${query}":\n`, response.text.substring(0, 1000) + '...'); // Log first 1000 chars
                 results = extractSearchResults(response.text, engine.name);
                 console.log(`🔎 [SEARCH ENGINE] Extracted ${results.length} results from ${engine.name} HTML`);
             } else if (response.json?.results) {

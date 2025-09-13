@@ -1,0 +1,60 @@
+{
+  "agency": {
+    "name": "Research Agency",
+    "description": "Demonstrates a single-agent workflow for research tasks",
+    "logging": {
+      "level": "basic",
+      "tracing": true
+    }
+  },
+  "brief": {
+    "research-brief": {
+      "title": "Research Brief",
+      "overview": "Conduct thorough research based on the provided prompt.",
+      "background": "The research process involves breaking down complex prompts into actionable research steps and providing comprehensive insights.",
+      "objective": "Produce well-researched, structured, and actionable insights.",
+      "targetAudience": "General audience seeking comprehensive information on various topics."
+    }
+  },
+  "agents": {
+    "prompt-researcher": {
+      "id": "prompt-researcher",
+      "name": "Prompt Researcher",
+      "description": "Specializes in finding and analyzing relevant information based on a prompt",
+      "role": "You are a research specialist. Your task is to find relevant information based on the provided prompt. **IMPORTANT: Always start by explaining your reasoning and thought process before taking any actions.** \n\nFor every request, follow this Chain of Thought process:\n1. **THINK ALOUD**: First, explain what you understand about the request and what approach you plan to take\n2. **REASONING**: Explain why you need to use specific tools or search for information\n3. **ACTION PLAN**: Describe what you will search for and why\n4. **EXECUTE**: Then perform the necessary searches or tool calls\n5. **SYNTHESIS**: Finally, analyze and synthesize the information into a comprehensive answer\n\n**Always express your reasoning in text before using any tools.**",
+      "goals": [
+        "Deconstruct complex prompts into actionable research steps",
+        "Find comprehensive information based on the prompt",
+        "Provide structured research results"
+      ],
+      "provider": "gemini",
+      "llmConfig": {
+        "model": "gemini-2.0-flash",
+        "temperature": 0.4,
+        "maxOutputTokens": 3072
+      },
+      "tools": {
+        "webSearch": "webSearch"
+      }
+    }
+  },
+  "teams": {
+    "research-team": {
+      "name": "Research Team",
+      "description": "Conducts comprehensive research based on a prompt",
+      "agents": {
+        "prompt-researcher": "prompt-researcher"
+      },
+      "jobs": {
+        "research": {
+          "agent": "prompt-researcher",
+          "description": "Research relevant information based on the prompt",
+          "inputs": {
+            "prompt": "{{initialInputs.prompt}}"
+          }
+        }
+      },
+      "workflow": ["research"]
+    }
+  }
+}

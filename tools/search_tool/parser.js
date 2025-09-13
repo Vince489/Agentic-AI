@@ -78,14 +78,13 @@ export const extractSearchResults = (html, source) => {
             }
 
             // Then check for regular results
-            $('.result').each((_, resEl) => {
+            $('.result-instance').each((_, resEl) => {
                 const $res = $(resEl);
-                const $link = $res.find('a');
-                const $title = $res.find('h3');
-                const $snippet = $res.find('p');
+                const $titleLink = $res.find('h3 a'); // Target the <a> tag inside h3 for URL and Title
+                const $snippet = $res.find('p'); // Target the <p> for the snippet
 
-                const url = $link.attr('href');
-                const title = cleanWhitespace($title.text());
+                const url = $titleLink.attr('href');
+                const title = cleanWhitespace($titleLink.text());
                 const snippet = cleanWhitespace($snippet.text());
 
                 if (url && url.startsWith('http')) {
