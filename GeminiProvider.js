@@ -14,7 +14,7 @@ export class GeminiProvider extends LLMProvider {
      * @param {string} apiKey - Gemini API key.
      * @param {string} modelName
      */
-    constructor(apiKey, modelName = 'gemini-2.0-flash') {
+    constructor(apiKey, modelName = 'gemini-2.5-flash-lite') {
         super();
         if (!apiKey) {
             throw new Error("API key is required for GeminiProvider.");

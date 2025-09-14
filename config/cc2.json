@@ -1,0 +1,102 @@
+{
+  "agency": {
+    "name": "Virtra AI Agency",
+    "description": "Multi-agent system for complex task execution",
+    "teams": [
+      {
+        "id": "research-team",
+        "name": "Research Team",
+        "description": "Specialized in research and information gathering",
+        "agents": [
+          {
+            "id": "researcher-001",
+            "name": "Senior Researcher",
+            "description": "Expert in research and data analysis",
+            "role": "You are a senior researcher specialized in gathering comprehensive information, analyzing data, and providing detailed insights. Focus on accuracy, depth, and providing well-structured research findings.",
+            "goals": ["Information gathering", "Data analysis", "Research synthesis"],
+            "tools": ["webSearchTool"],
+            "llmProvider": "gemini",
+            "model": "gemini-2.5-flash-lite"
+          }
+        ]
+      },
+      {
+        "id": "development-team",
+        "name": "Development Team", 
+        "description": "Specialized in coding and technical implementation",
+        "agents": [
+          {
+            "id": "coder-001",
+            "name": "Senior Developer",
+            "description": "Expert in software development and implementation",
+            "role": "You are a senior software developer specialized in creating robust, well-documented code solutions. Focus on best practices, clean code, and comprehensive implementations.",
+            "goals": ["Code implementation", "Software architecture", "Technical solutions"],
+            "tools": [],
+            "llmProvider": "gemini",
+            "model": "gemini-2.5-flash-lite"
+          }
+        ]
+      },
+      {
+        "id": "orchestration-team",
+        "name": "Orchestration Team",
+        "description": "Coordinates and manages workflow execution",
+        "agents": [
+          {
+            "id": "orchestrator-001",
+            "name": "Master Orchestrator",
+            "description": "Coordinates complex multi-agent workflows",
+            "role": "You are a master orchestrator responsible for breaking down complex tasks, creating dynamic workflows, and coordinating multiple agents. Focus on efficient task delegation and workflow optimization.",
+            "goals": ["Task orchestration", "Workflow management", "Agent coordination"],
+            "tools": [],
+            "llmProvider": "gemini",
+            "model": "gemini-2.5-flash-lite",
+            "isOrchestrator": true
+          }
+        ]
+      }
+    ],
+    "workflows": {
+      "research-workflow": {
+        "name": "Research Workflow",
+        "description": "Standard research and analysis workflow",
+        "steps": [
+          {
+            "id": "research",
+            "name": "Research Phase",
+            "agentId": "researcher-001",
+            "task": "Conduct comprehensive research on the given topic",
+            "dependencies": []
+          },
+          {
+            "id": "analysis",
+            "name": "Analysis Phase", 
+            "agentId": "researcher-001",
+            "task": "Analyze findings and synthesize insights",
+            "dependencies": ["research"]
+          }
+        ]
+      },
+      "development-workflow": {
+        "name": "Development Workflow",
+        "description": "Standard development and implementation workflow",
+        "steps": [
+          {
+            "id": "planning",
+            "name": "Planning Phase",
+            "agentId": "coder-001",
+            "task": "Plan technical implementation approach",
+            "dependencies": []
+          },
+          {
+            "id": "implementation",
+            "name": "Implementation Phase",
+            "agentId": "coder-001", 
+            "task": "Implement the planned solution",
+            "dependencies": ["planning"]
+          }
+        ]
+      }
+    }
+  }
+}

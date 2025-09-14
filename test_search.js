@@ -32,7 +32,7 @@ const agent = agentFactory.createAgent({
     'Provide accurate search results'
   ],
   llmConfig: {
-    model: 'gemini-2.0-flash',
+    model: 'gemini-2.5-flash-lite',
     temperature: 0.3,
     maxOutputTokens: 1024,
   },

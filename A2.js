@@ -13,7 +13,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Initialize the Gemini provider
-const geminiProvider = new GeminiProvider(process.env.GEMINI_API_KEY, 'gemini-2.0-flash');
+const geminiProvider = new GeminiProvider(process.env.GEMINI_API_KEY, 'gemini-2.5-flash-lite');
 
 // Create a sophisticated agent with reasoning capabilities
 const reasoningAgent = new Agent({

@@ -37,7 +37,7 @@ const conversationalAgent = await agentFactory.createAgent({
     'Maintain a coherent conversation history.'
   ],
   llmConfig: {
-    model: 'gemini-2.0-flash', // Specify model here for AgentFactory
+    model: 'gemini-2.5-flash-lite', // Specify model here for AgentFactory
     temperature: 0.5,
     maxOutputTokens: 2048,
   },

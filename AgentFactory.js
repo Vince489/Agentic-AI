@@ -1,4 +1,4 @@
-import { Agent } from './Agent.js';
+import { Agent } from './Agent2.js';
 import { GeminiProvider } from './GeminiProvider.js';
 import { AnthropicProvider } from './AnthropicProvider.js';
 import { OpenAIProvider } from './OpenAIProvider.js';
@@ -7,6 +7,8 @@ import { OpenRouterProvider } from './OpenRouterProvider.js';
 import { MistralProvider } from './MistralProvider.js';
 import fs from 'fs';
 import path from 'path';
+
+
 
 /**
  * Factory class for creating agents with agent.js,
@@ -149,7 +151,7 @@ export class AgentFactory {
         let llmProvider;
         switch (provider.toLowerCase()) {
             case 'gemini':
-                const geminiModelName = agentConfig.llmConfig?.model || 'gemini-2.0-flash';
+                const geminiModelName = agentConfig.llmConfig?.model || 'gemini-2.5-flash-lite';
                 llmProvider = new GeminiProvider(apiKey, geminiModelName);
                 break;
             case 'anthropic':

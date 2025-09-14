@@ -15,7 +15,7 @@ async function runComplexAgent(highLevelGoal) {
   // This is the "thinking" or "planning" phase of the agent.
   console.log("[AGENT] Decomposing the high-level goal into a plan...");
   const planResponse = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-flash-lite",
     contents: `Decompose the following high-level goal into a clear, numbered plan of action. Do not provide any details, just the list of steps.\n\nGoal: ${highLevelGoal}`,
     config: {
       systemInstruction: "You are a professional strategist. Your only task is to break down complex goals into a numbered list of actionable steps.",

@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const geminiProvider = new GeminiProvider(process.env.GEMINI_API_KEY, 'gemini-2.0-flash');
+const geminiProvider = new GeminiProvider(process.env.GEMINI_API_KEY, 'gemini-2.5-flash-lite');
 
 // Create a strategic planner agent
 const strategicPlanner = new Agent({

@@ -39,7 +39,7 @@ const conversationalAgent = await agentFactory.createAgent({
     'When asked about ongoing events or tours, always consider the current date and time (provided in the system instruction) and use webSearch to find relevant information.'
   ],
   llmConfig: {
-    model: 'gemini-2.0-flash', // Specify model here for AgentFactory
+    model: 'gemini-2.5-flash-lite', // Specify model here for AgentFactory
     temperature: 0.5,
     maxOutputTokens: 2048,
   },
